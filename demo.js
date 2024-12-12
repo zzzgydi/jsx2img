@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 读取 Preact 源码
 const preactCode = fs.readFileSync(
   path.join(__dirname, "./lib/preact@10.25.2.min.js"),
-  "utf8"
+  "utf8",
 );
 
 // S3 配置
@@ -163,7 +163,7 @@ app.post("/convert", async (req, res) => {
     if (jsx) {
       const app = `
             const data = ${JSON.stringify(data || {})};
-            const App = () => {
+            const App = (data) => {
                 return (${jsx});
             };
         `;
@@ -178,7 +178,7 @@ app.post("/convert", async (req, res) => {
           
           ${transformedCode}
 
-          render(h(App), document.getElementById('root'));
+          render(h(App, { data }), document.getElementById('root'));
         </script>
       `;
     }
@@ -210,7 +210,7 @@ app.post("/convert", async (req, res) => {
 
     // 图片buffer转base64
     const base64 = `data:image/png;base64,${Buffer.from(pngBuffer).toString(
-      "base64"
+      "base64",
     )}`;
 
     // 生成唯一文件名

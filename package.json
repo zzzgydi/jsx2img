@@ -2,14 +2,24 @@
   "name": "jsx2img",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    "hono": "^4.6.13"
+    "esbuild": "^0.24.0",
+    "hono": "^4.6.13",
+    "puppeteer": "^23.10.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "typescript": "^5.7.2"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "trailingComma": "all",
+    "semi": true
   }
 }
