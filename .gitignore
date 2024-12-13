@@ -29,3 +29,6 @@ lerna-debug.log*
 
 # build
 dist/
+
+tests/app.js
+tests/tw.mjs
