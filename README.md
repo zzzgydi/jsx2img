@@ -4,7 +4,7 @@
 
 ## 🌟 Features
 
-- [x] Convert JSX to image (Preact, React compatible)
+- [x] Convert JSX/TSX to image (Preact, React compatible)
 - [x] Convert HTML to image
 - [x] Support custom styling
 - [x] Flexible data injection
@@ -45,10 +45,22 @@ docker run -p 3000:3000 jsx2img
 curl -X POST http://localhost:3000/convert -d '{
     "jsx": "const App = ({data}) => <div className=\"container\">Hello, {data.world}</div>;",
     "data": { "world": "World!!!" },
-    "style": ".container { border: 1px solid red; padding: 30px 10px; border-radius: 10px; text-align: center; background: #f5f5f5; }"
+    "width": 300,
+    "height": 300,
+    "style": ".container { border: 1px solid #888; padding: 30px 10px; border-radius: 10px; text-align: center; background: #f5f5f5; }"
 }'
 ```
+
+Response image:
+
+![image](./docs/example.png)
 
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 📚 References
+
+- [Esbuild](https://esbuild.github.io/)
+- [Preact](https://preactjs.com/)
+- [Puppeteer](https://github.com/puppeteer/puppeteer)

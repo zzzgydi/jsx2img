@@ -5,4 +5,5 @@ dist
 .env
 *.log
 
+docs
 /tests
