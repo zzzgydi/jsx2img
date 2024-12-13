@@ -33,12 +33,12 @@ export async function prepareHTML(
         ${preactCode}
 
         const { h, render } = preact;
-        
+
         ${transformedCode}
 
-        const data = ${JSON.stringify(data || {})};
+        const _data = ${JSON.stringify(data || {})};
 
-        render(h(App, { data }), document.getElementById('root'));
+        render(h(App, { data: _data }), document.getElementById('root'));
       </script>`;
   }
 

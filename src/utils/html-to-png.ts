@@ -1,19 +1,14 @@
 import puppeteer from "puppeteer";
+import { browserPool } from "./browser-pool.js";
 
 export async function htmlToPng(html: string, width = 800, height = 600) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      // "--disable-accelerated-2d-canvas",
-      "--disable-gpu",
-    ],
-  });
+  let browser: puppeteer.Browser = null!;
+  let page: puppeteer.Page = null!;
 
   try {
-    const page = await browser.newPage();
+    browser = await browserPool.acquire();
+    page = await browser.newPage();
+
     await page.setViewport({ width, height, deviceScaleFactor: 2 });
     await page.setContent(html, { waitUntil: ["load", "networkidle0"] });
 
@@ -23,7 +18,7 @@ export async function htmlToPng(html: string, width = 800, height = 600) {
 
     let clip: any | undefined;
 
-    if (bbox) {
+    if (bbox && bbox.width > 0 && bbox.height > 0) {
       clip = {
         x: bbox.x,
         y: bbox.y,
@@ -41,6 +36,11 @@ export async function htmlToPng(html: string, width = 800, height = 600) {
 
     return screenshot;
   } finally {
-    await browser.close();
+    if (page) {
+      await page.close().catch(console.error);
+    }
+    if (browser) {
+      await browserPool.release(browser);
+    }
   }
 }

@@ -3,49 +3,26 @@ import { logger } from "hono/logger";
 import { serve } from "@hono/node-server";
 import { prepareHTML } from "./utils/transform-jsx.js";
 import { htmlToPng } from "./utils/html-to-png.js";
+import { browserPool } from "./utils/browser-pool.js";
+import { testCase } from "./mock.js";
 
 const app = new Hono();
 
 app.use(logger());
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+app.get("/health", (c) => {
+  return c.text("ok");
 });
-
-const testCase = {
-  jsx: `
-    const App = () => (
-      <div className={"container"}>
-        <h1>Hello, {data.name} !!!</h1>
-        <p>This is a test.</p>
-      </div>
-    );`,
-  style: `
-          .container {
-              padding: 40px 50px;
-              background: #f0f;
-              border-radius: 40px;
-          }
-          h1 { color: blue; }
-          p { 
-              color: red;
-              font-size: 16px;
-              line-height: 1.5;
-              padding: 10px 0;
-              margin-bottom: 10px;
-              text-align: left;
-              border-bottom: 1px solid #ccc;
-          }
-      `,
-  data: {
-    name: "World",
-  },
-  width: 800,
-  height: 600,
-};
 
 app.post("/convert", async (c) => {
   const { jsx, html, style, data, width, height } = await c.req.json();
+  // const { jsx, html, style, data, width, height } = testCase;
+
+  // check
+  if (!jsx && !html) {
+    return c.text("Missing jsx or html", 400);
+  }
+
   const contentHtml = await prepareHTML(jsx, html, style, data);
 
   const pngBuffer = await htmlToPng(contentHtml, width, height);
@@ -57,10 +34,19 @@ app.post("/convert", async (c) => {
   return c.text(base64);
 });
 
-const port = 3000;
+async function gracefulShutdown() {
+  console.log("Shutting down...");
+  await browserPool.drain();
+  process.exit(0);
+}
+
+process.on("SIGTERM", gracefulShutdown);
+process.on("SIGINT", gracefulShutdown);
+
+const port = process.env.PORT || 3000;
 console.log(`Server is running on http://localhost:${port}`);
 
 serve({
   fetch: app.fetch,
-  port,
+  port: Number(port),
 });
