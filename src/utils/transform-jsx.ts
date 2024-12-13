@@ -1,5 +1,6 @@
 import esbuild from "esbuild";
 import { readPreactCode } from "./read-preact-code.js";
+import { parseTailwindCSS } from "./tailwind-parser.js";
 
 export async function transformJSX(jsx: string) {
   try {
@@ -20,11 +21,19 @@ export async function prepareHTML(
   html: string,
   style: string,
   data: any,
+  options?: {
+    tailwind: boolean;
+  },
 ) {
   let contentHtml = html;
   let transformedCode = "";
 
   const preactCode = readPreactCode();
+
+  let twStyle = "";
+  if (options?.tailwind) {
+    twStyle = await parseTailwindCSS(jsx).catch((e) => "");
+  }
 
   if (jsx) {
     transformedCode = await transformJSX(jsx);
@@ -54,6 +63,7 @@ export async function prepareHTML(
               padding: 0;
           }
           ${style || ""}
+          ${twStyle || ""}
         </style>
       </head>
       <body>

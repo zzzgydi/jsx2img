@@ -15,15 +15,14 @@ app.get("/health", (c) => {
 });
 
 app.post("/convert", async (c) => {
-  const { jsx, html, style, data, width, height } = await c.req.json();
-  // const { jsx, html, style, data, width, height } = testCase;
+  const { jsx, html, style, data, width, height, options } = await c.req.json();
 
   // check
   if (!jsx && !html) {
     return c.text("Missing jsx or html", 400);
   }
 
-  const contentHtml = await prepareHTML(jsx, html, style, data);
+  const contentHtml = await prepareHTML(jsx, html, style, data, options);
 
   const pngBuffer = await htmlToPng(contentHtml, width, height);
 
