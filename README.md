@@ -8,7 +8,7 @@
 - [x] Convert HTML to image
 - [x] Support custom styling
 - [x] Flexible data injection
-- [ ] Support Tailwind CSS parser (Upcoming)
+- [x] Support Tailwind CSS parser (Upcoming)
 - [ ] Supports build-in templates (Upcoming)
 
 ## 💡 Quick Start
