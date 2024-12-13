@@ -4,7 +4,7 @@ import { readPreactCode } from "./read-preact-code.js";
 export async function transformJSX(jsx: string) {
   try {
     const result = await esbuild.transform(jsx, {
-      loader: "jsx",
+      loader: "tsx", // support "jsx" and "tsx"
       jsxFactory: "h",
       jsxFragment: "Fragment",
       minify: true,
