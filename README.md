@@ -29,6 +29,16 @@ pnpm dev
 pnpm run test
 ```
 
+### Docker
+
+```
+# Build
+docker build -t jsx2img .
+
+# Run
+docker run -p 3000:3000 jsx2img
+```
+
 ### Usage Example
 
 ```
