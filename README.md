@@ -4,7 +4,7 @@
 
 ## 🌟 Features
 
-- [x] Convert JSX to image
+- [x] Convert JSX to image (Preact, React compatible)
 - [x] Convert HTML to image
 - [x] Support custom styling
 - [x] Flexible data injection
