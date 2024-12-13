@@ -1,21 +1,35 @@
 # JSX To Image
 
-`jsx2img` is a tool that converts JSX to image by using puppeteer.
+`jsx2img` is a powerful tool that converts JSX and HTML to images using Puppeteer, providing an easy way to generate visual representations of your components.
 
-## Features
+## 🌟 Features
 
-- [x] Support JSX to image
-- [x] Support HTML to image
-- [ ] Support Tailwind CSS parser
+- [x] Convert JSX to image
+- [x] Convert HTML to image
+- [x] Support custom styling
+- [x] Flexible data injection
+- [ ] Support Tailwind CSS parser (Upcoming)
+- [ ] Supports build-in templates (Upcoming)
 
-## Get Started
+## 💡 Quick Start
+
+### Local Development
 
 ```
+# Clone the repository
+git clone https://github.com/zzzgydi/jsx2img.git
+
+# Install dependencies
 pnpm install
+
+# Start development server
 pnpm dev
+
+# Test
+pnpm run test
 ```
 
-then you can test it by curl or `pnpm run test`
+### Usage Example
 
 ```
 curl -X POST http://localhost:3000/convert -d '{
@@ -25,6 +39,6 @@ curl -X POST http://localhost:3000/convert -d '{
 }'
 ```
 
-## License
+## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
