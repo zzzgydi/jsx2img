@@ -1,71 +1,35 @@
+import fs from "fs";
 import fetch from "node-fetch";
 
-const CONCURRENT_REQUESTS = 10;
-const TOTAL_REQUESTS = 60;
-
-const testCase = {
-  jsx: `
-    const App = ({ data }) => (
-      <div className={"container"}>
-        <h1>Hello, {data.name} !!!</h1>
-        <p>This is a test.</p>
-        <p>测试测试测试测试</p>
-      </div>
-    );`,
-  html: "",
-  style: `
-    .container {
-        padding: 40px 50px;
-        background: #f5f5f5;
-        border-radius: 16px;
-    }
-    h1 { color: blue; }
-    p { 
-        color: red;
-        font-size: 16px;
-        line-height: 1.5;
-        padding: 10px 0;
-        margin-bottom: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ccc;
-    }`,
-  data: {
-    name: "World",
-  },
-  width: 800,
-  height: 600,
-};
-
 async function sendRequest() {
-  try {
-    const response = await fetch("http://localhost:3000/convert", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(testCase),
-    });
-    return response.ok;
-  } catch (error) {
-    return false;
-  }
+  const response = await fetch("http://localhost:3000/convert", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jsx: 'const App = () => { return (<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-300 via-blue-300 to-green-300"><div className="bg-white p-8 rounded-2xl shadow-2xl w-96 transform transition-all hover:scale-105 relative"><h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">JSX to IMG</h1><p className="text-gray-600 text-center mb-6">Generate Images with JSX and Tailwind CSS</p><div className="absolute bottom-4 right-4"><p className="text-sm text-gray-500">github.com/zzzgydi</p></div></div></div>  );};',
+      width: 600,
+      height: 400,
+      options: {
+        tailwind: true,
+      },
+    }),
+  });
+  return response.text();
 }
 
-async function runBatch(requests) {
-  return Promise.all(requests.map(() => sendRequest()));
+function base64ToPNG(base64Str, filePath) {
+  const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
+  const imageBuffer = Buffer.from(base64Data, "base64");
+  fs.writeFileSync(filePath, imageBuffer);
 }
 
 async function main() {
   const startTime = Date.now();
-
-  for (let i = 0; i < TOTAL_REQUESTS; i += CONCURRENT_REQUESTS) {
-    const batch = new Array(
-      Math.min(CONCURRENT_REQUESTS, TOTAL_REQUESTS - i),
-    ).fill(null);
-    await runBatch(batch);
-  }
+  const base64 = await sendRequest();
+  base64ToPNG(base64, "tests/example.png");
 
   const duration = (Date.now() - startTime) / 1000;
   console.log(`Total time: ${duration} seconds`);
-  console.log(`Requests per second: ${TOTAL_REQUESTS / duration}`);
 }
 
 main();

@@ -32,3 +32,4 @@ dist/
 
 tests/app.js
 tests/tw.mjs
+tests/*.png
