@@ -8,7 +8,7 @@
 - [x] Convert HTML to image
 - [x] Support custom styling
 - [x] Flexible data injection
-- [x] Support Tailwind CSS parser (Upcoming)
+- [x] Support Tailwind CSS parser
 - [ ] Supports build-in templates (Upcoming)
 
 ## 💡 Quick Start
@@ -47,7 +47,8 @@ curl -X POST http://localhost:3000/convert -d '{
     "data": { "world": "World!!!" },
     "width": 300,
     "height": 300,
-    "style": ".container { border: 1px solid #888; padding: 30px 10px; border-radius: 10px; text-align: center; background: #f5f5f5; }"
+    "style": ".container { border: 1px solid #888; padding: 30px 10px; border-radius: 10px; text-align: center; background: #f5f5f5; }",
+    "options": { "tailwind": true }
 }'
 ```
 
