@@ -11,6 +11,8 @@
 - [x] Support Tailwind CSS parser
 - [ ] Supports build-in templates (Upcoming)
 
+![image](./docs/example-1.png)
+
 ## 💡 Quick Start
 
 ### Local Development
@@ -43,18 +45,18 @@ docker run -p 3000:3000 jsx2img
 
 ```
 curl -X POST http://localhost:3000/convert -d '{
-    "jsx": "const App = ({data}) => <div className=\"container\">Hello, {data.world}</div>;",
+    "jsx": "const App = ({data}) => <div className=\"hello text-center bg-purple-400 text-white font-bold\">Hello, {data.world}</div>;",
     "data": { "world": "World!!!" },
     "width": 300,
     "height": 300,
-    "style": ".container { border: 1px solid #888; padding: 30px 10px; border-radius: 10px; text-align: center; background: #f5f5f5; }",
+    "style": ".hello { border: 1px solid #888; padding: 30px 10px; border-radius: 10px;  }",
     "options": { "tailwind": true }
 }'
 ```
 
 Response image:
 
-![image](./docs/example.png)
+![image](./docs/example-2.png)
 
 ## 📝 License
 
