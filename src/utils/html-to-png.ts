@@ -10,7 +10,7 @@ export async function htmlToPng(html: string, width = 800, height = 600) {
     page = await browser.newPage();
 
     await page.setViewport({ width, height, deviceScaleFactor: 2 });
-    await page.setContent(html, { waitUntil: ["load", "networkidle0"] });
+    await page.setContent(html, { waitUntil: ["load"] });
 
     // get the bounding box of the body
     const elementHandle = await page.$("body > *");
