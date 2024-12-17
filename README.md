@@ -43,6 +43,17 @@ docker run -p 3000:3000 jsx2img
 
 ### Usage Example
 
+params:
+
+- `jsx`: JSX/TSX code, must has the `App` component [optional]
+- `html`: HTML code, alternative to `jsx`, if `jsx` is not provided, `html` is required, otherwise `jsx` will be used [optional]
+- `data`: Data to inject into the `jsx` component [optional]
+- `width`: browser screen width (px) [default: 800]
+- `height`: browser screen height (px) [default: 600]
+- `style`: Custom styling [optional]
+- `options`: Options
+  - `tailwind`: Whether to use tailwind css parser [default: false]
+
 ```
 curl -X POST http://localhost:3000/convert -d '{
     "jsx": "const App = ({data}) => <div className=\"hello text-center bg-purple-400 text-white font-bold\">Hello, {data.world}</div>;",
